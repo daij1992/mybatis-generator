@@ -1,0 +1,75 @@
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<!--Refer: https://blog.csdn.net/isea533/article/details/42102297 -->
+<generatorConfiguration>
+    <!--propeties：引入外部资源
+            resource：指定**classpath**下的属性文件，使用类似com/myproject/generatorConfig.properties这样的属性值。
+            url：可以指定文件系统上的特定位置，例如file:///C:/myfolder/generatorConfig.properties
+    -->
+    <properties resource="config.properties"/>
+
+    <!--context：指定生成一组对象的环境
+            id：唯一确定一个<context>元素
+            defaultModelType：定义了MBG如何生成实体类 flat/conditional/hierarchical
+            targetRuntime：指定生成的代码的运行时环境 MyBatis3/MyBatis3Simple/Ibatis2Java2/Ibatis2Java5
+            introspectedColumnImpl：指定扩展org.mybatis.generator.api.IntrospectedColumn该类的实现类
+    -->
+    <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+
+        <!--自动给表名或字段名添加分隔符（`）-->
+        <property name="autoDelimitKeywords" value="true"/>
+        <!--默认分隔符为英文双引号-->
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+        <!--Java文件的编码-->
+        <property name="javaFileEncoding" value="UTF-8"/>
+
+        <!--commentGenerator：自定义注释生成器
+            suppressAllComments：阻止生成注释，默认为false
+            suppressDate：阻止生成的注释包含时间戳，默认为false
+        -->
+        <commentGenerator type="com.mybatis.generator.CustomMapperCommentGenerator">
+            <property name="suppressAllComments" value="false"/>
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+
+        <!--指定数据库连接信息-->
+        <jdbcConnection driverClass="${jdbc.driverClass}"
+                        connectionURL="${jdbc.url}"
+                        userId="${jdbc.user}"
+                        password="${jdbc.password}">
+        </jdbcConnection>
+
+        <!--javaModelGenerator：控制生成的实体类
+                targetPackage：生成实体类存放的包名，一般就是放在该包下。实际还会受到其他配置的影响(如<table>)。
+                targetProject：指定目标项目路径，可以是绝对路径或相对路径（如 targetProject="src/main/java"）
+                    enableSubPackages：如果为true，MBG会根据catalog和schema来生成子包。如果false就会直接用targetPackage属性。默认为false
+        -->
+        <javaModelGenerator targetPackage="itrip.model" targetProject="src\main\java">
+            <property name="enableSubPackages" value="true" />
+        </javaModelGenerator>
+
+        <!--sqlMapGenerator：生成XML的SQL映射文件
+                targetPackage：生成实体类存放的包名，一般就是放在该包下。实际还会受到其他配置的影响(如<table>)。
+                targetProject：指定目标项目路径，可以是绝对路径或相对路径（如 targetProject="src/main/resources"）
+                    enableSubPackages：如果true，MBG会根据catalog和schema来生成子包。如果false就会直接用targetPackage属性。默认为false
+        -->
+        <sqlMapGenerator targetPackage="mapper"  targetProject="src\main\resources">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+
+        <!--javaClientGenerator：指定生成器
+                type:该属性用于选择一个预定义的客户端代码（可以理解为Mapper接口）生成器，用户可以自定义实现 ANNOTATEDMAPPER/XMLMAPPER
+        -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="itrip.dao"
+                             targetProject="src\main\java"/>
+        <table tableName="%">
+            <generatedKey column="id" sqlStatement="Mysql"/>
+        </table>
+
+
+    </context>
+
+</generatorConfiguration>
