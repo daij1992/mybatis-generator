@@ -25,15 +25,26 @@
         <property name="endingDelimiter" value="`"/>
         <!--Java文件的编码-->
         <property name="javaFileEncoding" value="UTF-8"/>
+        <property name="suppressAllComments" value="true"/>
+        <!-- 格式化java代码-->
+        <property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>
+
+
+
+        <commentGenerator>
+            <property name="javaFileEncoding" value="UTF-8"/>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
 
         <!--commentGenerator：自定义注释生成器
             suppressAllComments：阻止生成注释，默认为false
             suppressDate：阻止生成的注释包含时间戳，默认为false
         -->
-        <commentGenerator type="com.mybatis.generator.CustomMapperCommentGenerator">
-            <property name="suppressAllComments" value="false"/>
+        <!--<commentGenerator type="com.mybatis.generator.CustomMapperCommentGenerator">
+            <property name="suppressAllComments" value="true"/>
             <property name="suppressDate" value="true"/>
-        </commentGenerator>
+        </commentGenerator>-->
+
 
         <!--指定数据库连接信息-->
         <jdbcConnection driverClass="${jdbc.driverClass}"
@@ -47,7 +58,7 @@
                 targetProject：指定目标项目路径，可以是绝对路径或相对路径（如 targetProject="src/main/java"）
                     enableSubPackages：如果为true，MBG会根据catalog和schema来生成子包。如果false就会直接用targetPackage属性。默认为false
         -->
-        <javaModelGenerator targetPackage="itrip.model" targetProject="src\main\java">
+        <javaModelGenerator targetPackage="mpospay.model" targetProject="src\main\java">
             <property name="enableSubPackages" value="true" />
         </javaModelGenerator>
 
@@ -63,7 +74,7 @@
         <!--javaClientGenerator：指定生成器
                 type:该属性用于选择一个预定义的客户端代码（可以理解为Mapper接口）生成器，用户可以自定义实现 ANNOTATEDMAPPER/XMLMAPPER
         -->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="itrip.dao"
+        <javaClientGenerator type="XMLMAPPER" targetPackage="mpospay.dao"
                              targetProject="src\main\java"/>
         <table tableName="%">
             <generatedKey column="id" sqlStatement="Mysql"/>
